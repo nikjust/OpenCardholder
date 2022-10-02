@@ -14,7 +14,7 @@ import {AddNewDialog} from "./add-new-dialog.component";
 import {MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {FormsModule} from "@angular/forms";
-import {MatInput, MatInputModule} from "@angular/material/input";
+import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
 import {ZXingScannerModule} from "@zxing/ngx-scanner";
 import {NgxQRCodeModule} from "@techiediaries/ngx-qrcode";
@@ -22,6 +22,8 @@ import {FullScreenCode} from "./fullscreencode.component";
 import {MatBottomSheetModule} from "@angular/material/bottom-sheet";
 import {BottomCardSheet} from "./bottomcardsheet.component";
 import {MatMenuModule} from "@angular/material/menu";
+import { ServiceWorkerModule } from "@angular/service-worker";
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,14 @@ import {MatMenuModule} from "@angular/material/menu";
         ZXingScannerModule,
         NgxQRCodeModule,
         MatBottomSheetModule,
-        MatMenuModule
+        MatMenuModule,
+
+        ServiceWorkerModule.register('ngsw-worker.js', {
+          enabled: environment.production,
+          // Register the ServiceWorker as soon as the application is stable
+          // or after 30 seconds (whichever comes first).
+          registrationStrategy: 'registerWhenStable:30000'
+        })
 
     ],
   providers: [{
