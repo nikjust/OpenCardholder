@@ -65,7 +65,7 @@ export class AddNewDialog {
     8: "ITF",
     9: "MAXICODE",
     10: "PDF417",
-    11: "QR_CODE",
+    11: "QRCode",
     12: "RSS14",
     13: "RSS_EXPANDED",
     14: "UPCA",

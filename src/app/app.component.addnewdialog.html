@@ -16,7 +16,7 @@
   <mat-form-field appearance="outline">
     <mat-label>Barcode format</mat-label>
     <mat-select id="cardFormat" [(ngModel)]="format">
-      <mat-option *ngFor="let format1 of {'ITF':false,'UPC':false,'pharmacode':false,'CODABAR':false,'CODE39':false,'CODE128':false,'EAN5':false,'EAN13':false,'UPCA':false,'UPCE':false,'QR_CODE':true } | keyvalue:mySortingFunction" [value]="format1.key">
+      <mat-option *ngFor="let format1 of {'ITF':false,'UPC':false,'pharmacode':false,'CODABAR':false,'CODE39':false,'CODE128':false,'EAN5':false,'EAN13':false,'UPCA':false,'UPCE':false,'QRCode':true } | keyvalue:mySortingFunction" [value]="format1.key">
         {{format1.key}}
       </mat-option>
     </mat-select>
