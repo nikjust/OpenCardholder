@@ -1,1 +1,101 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.expanded
+{
+  display: block;
+  position: absolute;
+  text-align: center;
+  height: 100%;
+  transition: height 0.5s ease-in-out;
+  z-index: 10000;
+}
+
+.expanded > ngx-barcode6 > div > svg{
+  position: fixed;
+  background: transparent;
+  display: block;
+  margin: auto;
+  height: 100%;
+  width: 100%;
+  transition: height,text-align,width 0.5s ease-in-out;
+  right: 0;
+}
+
+.expanded-parent mat-expansion-panel-header{
+  height: 0 !important;
+  transition: height 0.25s ease-out;
+  display: none;
+}
+
+.expanded-parent mat-expansion-panel-header > .mat-content{
+  display: none;
+}
+
+.expanded-parent{
+  display: block !important;
+}
+
+.expanded > mat-icon{
+  display: block !important;
+  position: fixed !important;
+  top: 10px !important;
+  right: 10px !important;
+  z-index: 10002 !important;
+}
+
+
+.expanded-parent-parent > mat-expansion-panel{
+  display: none;
+}
+
+#toolbar.expanded{
+  height: 0px !important;
+  display: none !important;
+  transition: height 0.5s !important;
+}
+
+#scanner{
+  height: 100%;
+  background: black;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100001;
+}
+.scanner{
+  object-fit: contain !important;
+  position: relative;
+  margin: 5px;
+}
+
+.center-vertically{
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%) translateX(-50%) scale(2);
+  left: 50%;
+}
+
+.barcodePanel {
+  height: 95% !important;
+}
+
+ngx-barcode6.BarcodeSheet > div > svg {
+  width: 100%;
+  height: 100%;
+}
+
+.QrCodeSheet > div > img {
+  display: inline-flex;
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+.QrCodeSheet > div {
+  display: inline-flex;
+}
+

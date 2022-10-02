@@ -1,0 +1,53 @@
+<div style="">
+<h1 mat-dialog-title>Add new card</h1>
+<div mat-dialog-content>
+  <mat-form-field appearance="outline" >
+  <mat-label>Name</mat-label>
+  <input matInput value="name" [(ngModel)]="name" >
+</mat-form-field>
+  <mat-form-field appearance="outline" style="margin: 5px">
+    <mat-label>Barcode</mat-label>
+    <input matInput value="1234567890" [(ngModel)]="barcode" >
+    <button mat-icon-button matSuffix (click)="hide = !hide">
+      <mat-icon>qr_code_scanner</mat-icon>
+    </button>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="outline">
+    <mat-label>Barcode format</mat-label>
+    <mat-select id="cardFormat" [(ngModel)]="format">
+      <mat-option *ngFor="let format1 of {'ITF':false,'UPC':false,'pharmacode':false,'CODABAR':false,'CODE39':false,'CODE128':false,'EAN5':false,'EAN13':false,'UPCA':false,'UPCE':false,'QR_CODE':true } | keyvalue:mySortingFunction" [value]="format1.key">
+        {{format1.key}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+
+  <ngx-barcode6
+    style="display: inline-block; margin: 5px"
+    *ngIf="barcode && format != 'QRCode'"
+    [bc-format]="format"
+    [bc-value]=" formatBarcode1(barcode, format)"
+    [bc-display-value]=true
+    [bc-background]="'#ffffff00'"
+  >
+  </ngx-barcode6>
+  <ngx-qrcode
+    style="display: inline-block; margin: 5px"
+    *ngIf="barcode && format === 'QRCode'"
+    [elementType]="format"
+    [value]="barcode">
+  </ngx-qrcode>
+</div>
+<div mat-dialog-actions>
+  <button mat-button cdkFocusInitial
+          *ngIf="barcode && format && name"
+          [mat-dialog-close]="{format: format,title:name,barcode:barcode}">Save</button>
+</div>
+  <div id="scanner" *ngIf="!hide"  >
+    <button mat-icon-button aria-label="Example icon button with a vertical three dot icon" style="z-index: 10003;">
+      <mat-icon style="color: aliceblue; margin: 15px" (click)="hide=!hide">arrow_back</mat-icon>
+    </button>
+    <zxing-scanner  [tryHarder]="true" #scanner [formats]="formats" class="scanner center-vertically" (scanSuccess)="hide = !hide; console.log($event)" (scanComplete)="setBarcode($event)" (permissionResponse)="true"></zxing-scanner>
+  </div>
+</div>
