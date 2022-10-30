@@ -3,8 +3,8 @@
     style="display: inline-block; margin: 5px; width: 100%"
     class = "BarcodeSheet"
     *ngIf="data && data.format != 'QRCode' && data.value"
-    [bc-format]="data.format.key"
-    [bc-value]="data.value"
+    [bc-format]=" data.format"
+    [bc-value]="formatBc(data.value,data.format)"
     [bc-display-value]=true
     [bc-background]="'#ffffff00'"
   >

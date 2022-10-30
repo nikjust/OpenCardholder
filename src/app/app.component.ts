@@ -1,51 +1,64 @@
 import {Component} from '@angular/core';
 import * as JsBarcode from "jsbarcode";
 import {MatDialog} from "@angular/material/dialog";
-import { AddNewDialog } from './add-new-dialog.component';
-import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
+import {AddNewDialog} from './add-new-dialog.component';
+import {MatBottomSheet} from '@angular/material/bottom-sheet';
 import {NgxQrcodeElementTypes} from "@techiediaries/ngx-qrcode";
 import {BottomCardSheet, DialogData} from "./bottomcardsheet.component";
 
 export function formatBarcode(barcode: any, format: any): any {
   format = format.toUpperCase()
-  if (format.startsWith("EAN") | format.startsWith("UPC")) {
+  console.log(barcode)
+  if (format.startsWith("EAN") || format.startsWith("UPC")) {
 
-    while (barcode.length < 14) {
-      barcode += "0"
-    }
+    barcode = barcode.padEnd(14, "0")
 
     barcode.replace(/[^0-9]/g, "")
-    if (format === "EAN5") {
-      barcode = barcode.slice(0, 5)
-    } else if (format === "EAN13") {
-      barcode = barcode.slice(0, 13)
-    } else if (format === "EAN8") {
-      barcode = barcode.slice(0, 8)
-    } else if (format === "EAN2") {
-      barcode = barcode.slice(0, 2)
-    } else if (format === "UPC") {
-      barcode = barcode.slice(0, 11)
-    } else if (format === "UPCA") {
-      barcode = barcode.slice(0, 5)
-    } else if (format === "UPCE") {
-      barcode = barcode.slice(0, 6)
+    switch (format) {
+      case "EAN5":
+        barcode = barcode.slice(0, 5)
+        break;
+      case "EAN13":
+        barcode = barcode.slice(0, 12)
+        break;
+      case "EAN8":
+        barcode = barcode.slice(0, 8)
+        break;
+      case "EAN2":
+        barcode = barcode.slice(0, 2)
+        break;
+      case "UPC":
+        barcode = barcode.slice(0, 11)
+        break;
+      case "UPCA":
+        barcode = barcode.slice(0, 5)
+        break;
+      case "UPCE":
+        barcode = barcode.slice(0, 6)
+        break;
     }
-  } else if (format.startsWith("CODE39")) {
-    barcode = barcode.toUpperCase()
-    barcode.replace(/[^-0-9A-Z.$\/\+\%[:space:]\*]/g, "")
-    barcode = barcode
-  } else if (format.startsWith("CODE128")) {
-    barcode.replace(/[^[:ascii:]]/g, "")
-    barcode = barcode
-  } else if (format.startsWith("ITF")) {
-    barcode = barcode.toUpperCase()
-    barcode.replace(/[^0-9]/g, "")
+  } else {
+    switch (format) {
+      case "CODE39":
+        barcode = barcode.toUpperCase()
+        barcode.replace(/[^-0-9A-Z.$\/\+\%[:space:]\*]/g, "")
+        barcode = barcode
+        break;
+      case "CODE128":
+        barcode.replace(/[^[:ascii:]]/g, "")
+        barcode = barcode
+        break;
+      case "ITF":
+        barcode = barcode.toUpperCase()
+        barcode.replace(/[^0-9]/g, "")
 
-    while (barcode.length < 14) {
-      barcode += "0"
+        barcode.padEnd(14, "0")
+        barcode = barcode.slice(0, 14)
+        break;
     }
-    barcode = barcode.slice(0, 14)
   }
+  console.log(barcode)
+  console.log(format)
   return barcode
 }
 
@@ -56,10 +69,14 @@ export function formatBarcode(barcode: any, format: any): any {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor(public dialog: MatDialog, private _bottomSheet: MatBottomSheet) {}
-  ngOnInit() {navigator.mediaDevices.getUserMedia({video: true})
-  this.load()
+  constructor(public dialog: MatDialog, private _bottomSheet: MatBottomSheet) {
   }
+
+  ngOnInit() {
+    //navigator.mediaDevices.getUserMedia({video: true})
+    this.load()
+  }
+
   console = console;
   value = ""
   title = 'OpenPocket';
@@ -144,8 +161,8 @@ export class AppComponent {
 
   }
 
-  Expand(element:any) {
-    let HighParent =  element.target.closest(".mat-expansion-panel-body")
+  Expand(element: any) {
+    let HighParent = element.target.closest(".mat-expansion-panel-body")
     let toolbar = document.getElementById("toolbar")
     console.log(HighParent)
     HighParent.classList.add("expanded")
@@ -161,9 +178,8 @@ export class AppComponent {
     this._bottomSheet.open(BottomCardSheet, {data: data, panelClass: "barcodePanel"});
   }
 
-  Unexpand(){
+  Unexpand() {
     let elements = document.getElementsByClassName("expanded")
-
 
 
     for (let el of Array.from(elements)) {
@@ -180,7 +196,7 @@ export class AppComponent {
     document.getElementById("bottom")!.style!.display = ""
   }
 
-  AddNewDialog(){
+  AddNewDialog() {
     console.log(document.getElementById("bottom"))
     //document.getElementById("bottom")!.style!.display = "none !important"
     let dialogRef = this.dialog.open(AddNewDialog, {
@@ -211,7 +227,7 @@ export class AppComponent {
     //document.getElementById("bottom")!.style!.display = ""
   }
 
-  EditDialog(card: any, i: number){
+  EditDialog(card: any, i: number) {
     console.log(document.getElementById("bottom"))
     //document.getElementById("bottom")!.style!.display = "none !important"
     let dialogRef = this.dialog.open(AddNewDialog, {
@@ -247,6 +263,7 @@ export class AppComponent {
   save() {
     localStorage.setItem("Database", JSON.stringify(this.cardList))
   }
+
   load() {
     const db = localStorage.getItem("Database")
     if (db) {

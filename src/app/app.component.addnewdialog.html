@@ -46,8 +46,8 @@
 </div>
   <div id="scanner" *ngIf="!hide"  >
     <button mat-icon-button aria-label="Example icon button with a vertical three dot icon" style="z-index: 10003;">
-      <mat-icon style="color: aliceblue; margin: 15px" (click)="hide=!hide">arrow_back</mat-icon>
+      <mat-icon style="color: aliceblue; margin: 15px" (click)="hide=true">arrow_back</mat-icon>
     </button>
-    <zxing-scanner  [tryHarder]="true" #scanner [formats]="formats" class="scanner center-vertically" (scanSuccess)="hide = !hide; console.log($event)" (scanComplete)="setBarcode($event)" (permissionResponse)="true"></zxing-scanner>
+    <zxing-scanner  [tryHarder]="true" #scanner [formats]="formats" class="scanner center-vertically" (scanSuccess)="hide = true; console.log($event)" (scanComplete)="setBarcode($event)" (permissionResponse)="true"></zxing-scanner>
   </div>
 </div>
